@@ -52,7 +52,7 @@ module Guard
         ENV["LD_LIBRARY_PATH"]="#{ENV["LD_LIBRARY_PATH"]}:#{@@project_libdir}"
         
         if( !File.exists? (@@cunit_runner) )
-        Notifier.notify("Pending", :title => "Test Not Defined", :image => :pending, :priority => 2)
+          Notifier.notify("Pending", :title => "Test Not Defined", :image => :pending, :priority => 2)
           success = false
         else
           success = run_task(@@cunit_runner)
@@ -75,7 +75,7 @@ module Guard
       def run 
         UI.info "Test runner: #{@@cunit_runner}"
         UI.info "Builder:  #{@@project_builder}"
-        UI.info "Celaner: #{@@project_cleaner}"
+        UI.info "Cleaner: #{@@project_cleaner}"
         UI.info "Libdir: #{@@project_libdir}"
 
         run_clean
