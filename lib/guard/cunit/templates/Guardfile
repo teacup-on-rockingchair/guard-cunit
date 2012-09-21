@@ -1,0 +1,4 @@
+#Guardfile
+guard 'cunit' do
+      watch(%r{((.+)\.c$)|((.+)\.h$)|((M|m)akefile$)} )	
+end
