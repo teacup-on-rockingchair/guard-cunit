@@ -1,6 +1,9 @@
 module Guard
   class Cunit
-    class Runner
+#
+# the class implements running and handling of results of the tasks that made up the cunit guard
+# 
+   class Runner
       @@cunit_runner=''
       @@project_builder=''
       @@project_cleaner=''

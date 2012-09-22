@@ -47,8 +47,8 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>lib/guard/cunit.rb
     <li>lib/guard/cunit/runner.rb
+    <li>lib/guard/cunit.rb
   </ul>
 </nav>
 
@@ -106,8 +106,6 @@
   
     <li><a href="../Guard.html">Guard</a>
   
-    <li><a href="../Guard.html">Guard</a>
-  
     <li><a href="../Guard/Cunit.html">Guard::Cunit</a>
   
     <li><a href="../Guard/Cunit/Runner.html">Guard::Cunit::Runner</a>
@@ -131,6 +129,9 @@
 
   <div id="description" class="description">
     
+<p>main child class of <a href="../Guard.html">Guard</a> to nherit guard’s
+behaviour</p>
+
   </div><!-- description -->
 
   
@@ -167,7 +168,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 9</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 10</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">watchers</span> = [], <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">super</span>
   <span class="ruby-ivar">@options</span> = {
@@ -202,21 +203,14 @@
 
         <div class="method-description">
           
-          <pre class="ruby"><span class="ruby-keyword">def</span> <span class="ruby-identifier">start</span>
-  <span class="ruby-keyword">super</span>
-  <span class="ruby-constant">UI</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&quot;Guard::Cunit is running!&quot;</span>
-  <span class="ruby-identifier">run_all</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@options</span>[:<span class="ruby-identifier">all_on_start</span>]
-<span class="ruby-keyword">end</span>
-</pre>
-
-<p>Called when just `enter` is pressed This method should be principally used
+          <p>Called when just `enter` is pressed This method should be principally used
 for long action like running all specs/tests/… @raise [:task_has_failed]
 when <a href="Cunit.html#method-i-run_all">#run_all</a> has failed</p>
           
 
           
           <div class="method-source-code" id="run_all-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 24</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run_all</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Mine run all&quot;</span>
   <span class="ruby-identifier">passed</span> = <span class="ruby-ivar">@runner</span>.<span class="ruby-identifier">run</span>
@@ -248,7 +242,7 @@ when <a href="Cunit.html#method-i-run_all">#run_all</a> has failed</p>
 
           
           <div class="method-source-code" id="run_on_change-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 29</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run_on_change</span>
   <span class="ruby-identifier">passed</span> = <span class="ruby-identifier">run_all</span>
 <span class="ruby-keyword">end</span></pre>

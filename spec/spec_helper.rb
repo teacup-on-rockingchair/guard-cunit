@@ -42,7 +42,7 @@ def popen_failing_fake(fakename)
   IO.should_receive(:popen).with(fakename)  { `(exit 1)`}
 end
 
-
+# fake the test executable runner, its existance and result
 def fake_test_exe(exe_name,successful = :fail)
   exe_name="#{File.basename(Dir.getwd)}_unit" unless exe_name != nil
   File.new(exe_name,"w+")

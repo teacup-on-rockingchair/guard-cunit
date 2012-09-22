@@ -76,8 +76,6 @@
     
     <li><a href="#method-i-libdir">#libdir</a>
     
-    <li><a href="#method-i-prydnya">#prydnya</a>
-    
     <li><a href="#method-i-set_builder">#set_builder</a>
     
     <li><a href="#method-i-set_cleaner">#set_cleaner</a>
@@ -111,8 +109,6 @@
   
     <li><a href="../Guard.html">Guard</a>
   
-    <li><a href="../Guard.html">Guard</a>
-  
     <li><a href="../Guard/Cunit.html">Guard::Cunit</a>
   
     <li><a href="../Guard/Cunit/Runner.html">Guard::Cunit::Runner</a>
@@ -136,6 +132,9 @@
 
   <div id="description" class="description">
     
+<p>add more behaviour to Guard’s DSL to be able to configure executors  of all
+the CUnit’s <a href="../Guard.html">Guard</a> tasks</p>
+
   </div><!-- description -->
 
   
@@ -167,12 +166,12 @@
 
         <div class="method-description">
           
-          
+          <p>put default values to task executors</p>
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>
   <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">set_cleaner</span>(<span class="ruby-string">&quot;make clean&quot;</span>)
@@ -212,7 +211,7 @@
 
           
           <div class="method-source-code" id="cunit_runner-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">cunit_runner</span> (<span class="ruby-identifier">name</span>)
   <span class="ruby-constant">Cunit</span><span class="ruby-operator">::</span><span class="ruby-constant">Runner</span>.<span class="ruby-identifier">set_runner</span>(<span class="ruby-identifier">name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -243,7 +242,7 @@ current dir</p>
 
           
           <div class="method-source-code" id="libdir-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 59</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">libdir</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-constant">Cunit</span><span class="ruby-operator">::</span><span class="ruby-constant">Runner</span>.<span class="ruby-identifier">set_libdir</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">absolute_path</span>(<span class="ruby-identifier">name</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -255,36 +254,6 @@ current dir</p>
 
         
       </div><!-- libdir-method -->
-
-    
-      <div id="method-i-prydnya" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">prydnya</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="prydnya-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 63</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">prydnya</span>
-  <span class="ruby-constant">UI</span>.<span class="ruby-identifier">warning</span> (<span class="ruby-string">&quot;mama ti da eba bugliva&quot;</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- prydnya-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- prydnya-method -->
 
     
       <div id="method-i-set_builder" class="method-detail ">
@@ -303,7 +272,7 @@ current dir</p>
 
           
           <div class="method-source-code" id="set_builder-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 49</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_builder</span> (<span class="ruby-identifier">name</span>)
   <span class="ruby-constant">Cunit</span><span class="ruby-operator">::</span><span class="ruby-constant">Runner</span>.<span class="ruby-identifier">set_builder</span>(<span class="ruby-identifier">name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -333,7 +302,7 @@ current dir</p>
 
           
           <div class="method-source-code" id="set_cleaner-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 54</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_cleaner</span> (<span class="ruby-identifier">name</span>)
   <span class="ruby-constant">Cunit</span><span class="ruby-operator">::</span><span class="ruby-constant">Runner</span>.<span class="ruby-identifier">set_cleaner</span>(<span class="ruby-identifier">name</span>)
 <span class="ruby-keyword">end</span></pre>

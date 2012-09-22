@@ -117,8 +117,6 @@
   
     <li><a href="../../Guard.html">Guard</a>
   
-    <li><a href="../../Guard.html">Guard</a>
-  
     <li><a href="../../Guard/Cunit.html">Guard::Cunit</a>
   
     <li><a href="../../Guard/Cunit/Runner.html">Guard::Cunit::Runner</a>
@@ -142,6 +140,9 @@
 
   <div id="description" class="description">
     
+<p>the class implements running and handling of results of the tasks that made
+up the cunit guard</p>
+
   </div><!-- description -->
 
   
@@ -178,7 +179,7 @@
 
           
           <div class="method-source-code" id="set_builder-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 15</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_builder</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">@@project_builder</span>=<span class="ruby-identifier">name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -208,7 +209,7 @@
 
           
           <div class="method-source-code" id="set_cleaner-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 20</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_cleaner</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">@@project_cleaner</span>=<span class="ruby-identifier">name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -238,7 +239,7 @@
 
           
           <div class="method-source-code" id="set_libdir-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_libdir</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">@@project_libdir</span>=<span class="ruby-identifier">name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -268,7 +269,7 @@
 
           
           <div class="method-source-code" id="set_runner-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 10</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_runner</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">@@cunit_runner</span>=<span class="ruby-identifier">name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -304,7 +305,7 @@
 
           
           <div class="method-source-code" id="run-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 75</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run</span> 
   <span class="ruby-constant">UI</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;Test runner: #{@@cunit_runner}&quot;</span>
   <span class="ruby-constant">UI</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;Builder:  #{@@project_builder}&quot;</span>
@@ -341,7 +342,7 @@
 
           
           <div class="method-source-code" id="run_clean-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run_clean</span>
   <span class="ruby-identifier">run_task</span>(<span class="ruby-identifier">@@project_cleaner</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -371,7 +372,7 @@
 
           
           <div class="method-source-code" id="run_make-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 70</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run_make</span>
   <span class="ruby-identifier">success</span> = <span class="ruby-identifier">run_task</span>(<span class="ruby-identifier">@@project_builder</span>)
   <span class="ruby-constant">Notifier</span>.<span class="ruby-identifier">notify</span>(<span class="ruby-string">&quot;Failed&quot;</span>, <span class="ruby-value">:title</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Build Failed&quot;</span>, <span class="ruby-value">:image</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:failed</span>, <span class="ruby-value">:priority</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">success</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
@@ -402,7 +403,7 @@
 
           
           <div class="method-source-code" id="run_task-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run_task</span>(<span class="ruby-identifier">task_executable</span>)
   <span class="ruby-identifier">success</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-identifier">output</span> = <span class="ruby-constant">String</span>.<span class="ruby-identifier">new</span>
@@ -439,7 +440,7 @@
 
           
           <div class="method-source-code" id="run_tests-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 50</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit/runner.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run_tests</span>
   <span class="ruby-comment"># setup environment so it should include lib dir for ld path</span>
   <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;LD_LIBRARY_PATH&quot;</span>]=<span class="ruby-node">&quot;#{ENV[&quot;LD_LIBRARY_PATH&quot;]}:#{@@project_libdir}&quot;</span>
