@@ -12,7 +12,7 @@ module Guard
       @options = {
         :all_on_start   => true,
       }.update(options)
-      @runner    = Runner.new(@options)
+      @runner    = Runner.new()
     end
     # Called when just `enter` is pressed
     # This method should be principally used for long action like running all specs/tests/...
