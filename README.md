@@ -1,3 +1,5 @@
+# Guard CUnit  [![Build Status](https://secure.travis-ci.org/strandjata/guard-cunit.png?branch=master)](http://travis-ci.org/strandjata/guard-cunit)
+
 CUnit Guard allows you to run/watch Unit test for C modules, or anything other that works with Makefile
 
 Soon will add parser for CUnit tests, and probably other UT libs
