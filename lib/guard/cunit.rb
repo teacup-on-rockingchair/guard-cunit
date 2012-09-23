@@ -60,7 +60,7 @@ module Guard
     
     # dsl call to set dir, where library under test is generated, by default current dir
     def libdir(name)
-      Cunit::Runner.set_libdir(File.absolute_path(name))
+      Cunit::Runner.set_libdir(File.expand_path(name))
     end
 
   end
