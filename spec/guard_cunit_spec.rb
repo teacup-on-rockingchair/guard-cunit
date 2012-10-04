@@ -7,6 +7,8 @@ describe Guard::Cunit do
     tmp_work_dir=TempPrjEnv.create_tmp_prj_dir
     @work_dir = Dir.getwd
     Dir.chdir(tmp_work_dir)
+    Guard::UI.stub(:info)
+     IO.stub(:popen)
   end
 
   after(:each) do
@@ -21,7 +23,7 @@ describe Guard::Cunit do
   context "Run guard" do
 
     it "should run build" do
-     IO.stub(:popen)
+
       guardfile_has_unit_test_exe()
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
@@ -33,7 +35,6 @@ describe Guard::Cunit do
     end
 
     it "should set libpath for executbles with current project directory by default" do
-      IO.stub(:popen)
       oldenv=ENV["LD_LIBRARY_PATH"]
       guardfile_has_unit_test_exe()
       cguard = Guard::Cunit::Runner.new
@@ -44,7 +45,6 @@ describe Guard::Cunit do
       ENV["LD_LIBRARY_PATH"]=oldenv
     end
     it "should set libpath to predefined lib directory when user has specified such in the Guardfile" do
-      IO.stub(:popen)
       oldenv=ENV["LD_LIBRARY_PATH"]
       guardfile_has_unit_test_exe(:libdir=>'./lib')
       cguard = Guard::Cunit::Runner.new
@@ -56,7 +56,6 @@ describe Guard::Cunit do
     end
 
     it "should run cunit test define in the Guardfile" do
-      IO.stub(:popen)
       guardfile_has_unit_test_exe(:test_exe => "jiji")
       fake_test_exe("jiji",:pass)
       cguard = Guard::Cunit.new
@@ -73,18 +72,16 @@ describe Guard::Cunit do
 
 
     it "should run predefined build command" do 
-      IO.stub(:popen)
       guardfile_has_unit_test_exe(:test_exe =>"jiji",:builder => "./make_all.sh")
       fake_test_exe("jiji",:pass)
-
       popen_successfull_fake("./make_all.sh")
       cguard = Guard::Cunit::Runner.new
       Guard::setup
       cguard.run
 
     end
+
     it "should run predefined clean command" do 
-      IO.stub(:popen)
       guardfile_has_unit_test_exe(:test_exe =>"jiji",:builder => "./make_all.sh",:cleaner=> "./clean_all.sh")
       fake_test_exe("jiji",:pass)
       popen_successfull_fake("./make_all.sh")
@@ -96,11 +93,11 @@ describe Guard::Cunit do
     end
 
   end
+
+
   context "Handle exit codes" do
     it "should report failure on build failed" do
-      IO.stub(:popen)
       guardfile_has_unit_test_exe()
-
       popen_successfull_fake("make clean")
       popen_failing_fake("make 2>&1")
       cguard = Guard::Cunit::Runner.new
@@ -109,9 +106,7 @@ describe Guard::Cunit do
     end
 
     it "should report failure on test failed" do
-      IO.stub(:popen)
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
-
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       fake_test_exe("jiji",:fail)
@@ -124,7 +119,6 @@ describe Guard::Cunit do
   context "Displaying notifications" do
 
     it "should display failure if build fails" do
-      IO.stub(:popen)
       Guard::Notifier.stub(:notify) 
       guardfile_has_unit_test_exe()
       Guard::Notifier.should_receive(:notify).with("Failed", :title => "Build Failed", :image => :failed, :priority => 2)
@@ -147,8 +141,8 @@ describe Guard::Cunit do
       Guard::setup
       cguard.run
     end
+
     it "should display pending if test is absent" do
-      IO.stub(:popen)
       Guard::Notifier.stub(:notify) 
       guardfile_has_unit_test_exe()
       Guard::Notifier.should_receive(:notify).with("Pending", :title => "Test Not Defined", :image => :pending, :priority => 2)
@@ -158,8 +152,8 @@ describe Guard::Cunit do
       Guard::setup
       cguard.run
     end
+
     it "should display success if build and test succeeded" do
-      IO.stub(:popen)
       Guard::Notifier.stub(:notify) 
       guardfile_has_unit_test_exe()
       Guard::Notifier.should_receive(:notify).with("Success", :title => "Test Passed", :image => :passed, :priority => 2)

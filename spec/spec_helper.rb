@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'guard'
 require 'guard/cunit'
+require 'guard/cunit/runner'
+require 'guard/cunit/cunit_parser'
 require 'rspec'
 
 # a class to set/cleanup environment for fake project

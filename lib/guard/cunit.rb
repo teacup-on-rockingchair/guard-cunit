@@ -18,7 +18,6 @@ module Guard
     # This method should be principally used for long action like running all specs/tests/...
     # @raise [:task_has_failed] when run_all has failed
     def run_all
-      puts "Mine run all"
       passed = @runner.run
       throw :task_has_failed unless passed
     end
