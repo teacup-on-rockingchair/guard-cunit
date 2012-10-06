@@ -34,6 +34,20 @@ describe Guard::Cunit do
       
     end
 
+
+    it "should run build on changes " do
+      
+      guardfile_has_unit_test_exe()
+      popen_successfull_fake("make clean")
+      popen_successfull_fake("make 2>&1")
+      fake_test_exe("#{File.basename(Dir.getwd)}_unit",:pass)
+      cguard = Guard::Cunit.new
+      cguard.stub(:run_all).and_return(true)
+      Guard::setup
+      cguard.run_on_change("#{File.basename(Dir.getwd)}")
+      
+    end
+
     it "should set libpath for executbles with current project directory by default" do
       oldenv=ENV["LD_LIBRARY_PATH"]
       guardfile_has_unit_test_exe()
