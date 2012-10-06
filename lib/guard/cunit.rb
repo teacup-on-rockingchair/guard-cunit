@@ -21,7 +21,8 @@ module Guard
       passed = @runner.run
       throw :task_has_failed unless passed
     end
-    def run_on_change
+    def run_on_change(paths)
+      UI.info("Process changes in #{paths}")
       passed = run_all
     end
   end
