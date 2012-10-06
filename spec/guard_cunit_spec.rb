@@ -43,7 +43,7 @@ describe Guard::Cunit do
       fake_test_exe("#{File.basename(Dir.getwd)}_unit",:pass)
       cguard = Guard::Cunit.new
       cguard.stub(:run_all).and_return(true)
-      UI.should_receive(:info).with("Process changes in #{File.basename(Dir.getwd)}")
+      Guard::UI.should_receive(:info).with("Process changes in #{File.basename(Dir.getwd)}")
       Guard::setup
       cguard.run_on_change("#{File.basename(Dir.getwd)}")
       
