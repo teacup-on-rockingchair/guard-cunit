@@ -2,32 +2,32 @@ require "spec_helper.rb"
 
 
 describe Guard::Cunit::CunitParser do
-
-
   before(:each) do
 
-    @fake_output = '     CUnit - A unit testing framework for C - Version 2.1-2
+@fake_output =  String.new("     CUnit - A unit testing framework for C - Version 2.1-2
      http://cunit.sourceforge.net/
 
 Suite  Simple calc CUNIT suite, Test Addition test had failures:
-    1. simplecalc_test.c:7  - CU_FAIL("TODO")
+    1. simplecalc_test.c:7  - CU_FAIL(\"TODO\")
 
 Run Summary:    Type  Total    Ran Passed Failed Inactive
               suites      1      1    n/a      0        0
                tests      1      1      0      1        0
              asserts      1      1      0      1      n/a
 
-Elapsed time =    0.000 seconds'
+Elapsed time =    0.000 seconds")
 
-@fake_fail_summary = 'Suite  Simple calc CUNIT suite, Test Addition test had failures:
-    1. simplecalc_test.c:7  - CU_FAIL("TODO")'
+@fake_fail_summary = String.new("Suite  Simple calc CUNIT suite, Test Addition test had failures:
+    1. simplecalc_test.c:7  - CU_FAIL(\"TODO\")")
 
-@fake_summary = 'Run Summary:    Type  Total    Ran Passed Failed Inactive
+@fake_summary = String.new("Run Summary:    Type  Total    Ran Passed Failed Inactive
               suites      1      1    n/a      0        0
                tests      1      1      0      1        0
              asserts      1      1      0      1      n/a
 
-Elapsed time =    0.000 seconds'
+Elapsed time =    0.000 seconds")
+
+
 
     tmp_work_dir=TempPrjEnv.create_tmp_prj_dir
     @work_dir = Dir.getwd
@@ -43,13 +43,10 @@ Elapsed time =    0.000 seconds'
 
   it "should generate a UI summary and full output from given text input" do
     parser = Guard::Cunit::CunitParser.new(@fake_output)
-    puts @fake_output
-puts "==="
-    puts " #{parser.full_output}"
-    parser.full_output.should match(@fake_output)
-    parser.cunit_output.should match(@fake_summary)
 
-    parser.failures_output.should match(@fake_fail_summary)
+    parser.full_output.should == @fake_output
+    parser.cunit_output.should == (@fake_summary)
+    parser.failures_output.should == (@fake_fail_summary)
   end
   it "summary should be maximum a 3 row output" do
     pending
