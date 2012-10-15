@@ -144,7 +144,7 @@ describe Guard::Cunit do
       IO.stub(:popen)
       Guard::Notifier.stub(:notify) 
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
-      Guard::Notifier.should_receive(:notify).with("Failed", :title => "Test Failed", :image => :failed, :priority => 2)
+      Guard::Notifier.should_receive(:notify).with("Failed", :title => "Test Failed", :image => :failed, :priority => 2, :message => anything() )
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       fake_test_exe("jiji",:fail)

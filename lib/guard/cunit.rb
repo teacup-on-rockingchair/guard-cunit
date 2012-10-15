@@ -41,6 +41,7 @@ module Guard
       cunit_runner("#{File.basename(Dir.getwd)}_unit")
       set_builder("make 2>&1")
       libdir("#{Dir.getwd}")
+      @runner = Cunit::Runner.new
     end
 
     # dsl call to set cunit test executable
