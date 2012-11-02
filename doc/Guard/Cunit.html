@@ -48,6 +48,7 @@
   <h3 class="section-header">Defined In</h3>
   <ul>
     <li>lib/guard/cunit/runner.rb
+    <li>lib/guard/cunit/cunit_parser.rb
     <li>lib/guard/cunit.rb
   </ul>
 </nav>
@@ -108,6 +109,8 @@
   
     <li><a href="../Guard/Cunit.html">Guard::Cunit</a>
   
+    <li><a href="../Guard/Cunit/CunitParser.html">Guard::Cunit::CunitParser</a>
+  
     <li><a href="../Guard/Cunit/Runner.html">Guard::Cunit::Runner</a>
   
     <li><a href="../Guard/CunitGuard.html">Guard::CunitGuard</a>
@@ -117,6 +120,8 @@
     <li><a href="../Object.html">Object</a>
   
     <li><a href="../TempPrjEnv.html">TempPrjEnv</a>
+  
+    <li><a href="../TestOutput.html">TestOutput</a>
   
   </ul>
 </nav>
@@ -163,7 +168,7 @@ behaviour</p>
 
         <div class="method-description">
           
-          
+          <p>new method that also creates the runner class</p>
           
 
           
@@ -174,7 +179,7 @@ behaviour</p>
   <span class="ruby-ivar">@options</span> = {
     <span class="ruby-value">:all_on_start</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
   }.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">options</span>)
-  <span class="ruby-ivar">@runner</span>    = <span class="ruby-constant">Runner</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@options</span>)
+  <span class="ruby-ivar">@runner</span>    = <span class="ruby-constant">Runner</span>.<span class="ruby-identifier">new</span>()
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
           
@@ -212,7 +217,6 @@ when <a href="Cunit.html#method-i-run_all">#run_all</a> has failed</p>
           <div class="method-source-code" id="run_all-source">
             <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run_all</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Mine run all&quot;</span>
   <span class="ruby-identifier">passed</span> = <span class="ruby-ivar">@runner</span>.<span class="ruby-identifier">run</span>
   <span class="ruby-identifier">throw</span> <span class="ruby-value">:task_has_failed</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">passed</span>
 <span class="ruby-keyword">end</span></pre>
@@ -230,7 +234,7 @@ when <a href="Cunit.html#method-i-run_all">#run_all</a> has failed</p>
         
         <div class="method-heading">
           <span class="method-name">run_on_change</span><span
-            class="method-args">()</span>
+            class="method-args">(paths)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -242,8 +246,9 @@ when <a href="Cunit.html#method-i-run_all">#run_all</a> has failed</p>
 
           
           <div class="method-source-code" id="run_on_change-source">
-            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 25</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">run_on_change</span>
+            <pre><span class="ruby-comment"># File lib/guard/cunit.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">run_on_change</span>(<span class="ruby-identifier">paths</span>)
+  <span class="ruby-constant">UI</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Process changes in #{paths}&quot;</span>)
   <span class="ruby-identifier">passed</span> = <span class="ruby-identifier">run_all</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- run_on_change-source -->

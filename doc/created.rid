@@ -1,10 +1,12 @@
-Sat, 22 Sep 2012 17:26:42 +0300
-./Guardfile	Sat, 22 Sep 2012 17:14:32 +0300
-./lib/guard/cunit/version.rb	Sat, 22 Sep 2012 17:19:52 +0300
-./lib/guard/cunit/templates/Guardfile	Sat, 22 Sep 2012 17:14:32 +0300
-./lib/guard/cunit/runner.rb	Sat, 22 Sep 2012 17:19:23 +0300
-./lib/guard/cunit.rb	Sat, 22 Sep 2012 17:24:43 +0300
-./Gemfile	Sat, 22 Sep 2012 17:14:32 +0300
-./spec/spec_helper.rb	Sat, 22 Sep 2012 17:25:59 +0300
-./spec/guard_cunit_spec.rb	Sat, 22 Sep 2012 17:14:32 +0300
-./Rakefile	Sat, 22 Sep 2012 17:14:32 +0300
+Fri, 02 Nov 2012 07:51:52 +0200
+./Guardfile	Fri, 02 Nov 2012 06:53:59 +0200
+./lib/guard/cunit/version.rb	Fri, 02 Nov 2012 06:53:59 +0200
+./lib/guard/cunit/templates/Guardfile	Fri, 02 Nov 2012 06:53:59 +0200
+./lib/guard/cunit/runner.rb	Fri, 02 Nov 2012 06:53:59 +0200
+./lib/guard/cunit/cunit_parser.rb	Fri, 02 Nov 2012 06:53:59 +0200
+./lib/guard/cunit.rb	Fri, 02 Nov 2012 06:53:59 +0200
+./Gemfile	Fri, 02 Nov 2012 07:18:40 +0200
+./spec/guard_cunit_parser_spec.rb	Fri, 02 Nov 2012 06:53:59 +0200
+./spec/spec_helper.rb	Fri, 02 Nov 2012 06:53:59 +0200
+./spec/guard_cunit_spec.rb	Fri, 02 Nov 2012 06:53:59 +0200
+./Rakefile	Fri, 02 Nov 2012 07:51:43 +0200

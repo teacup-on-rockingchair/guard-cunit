@@ -122,6 +122,8 @@
   
     <li><a href="./Guard/Cunit.html">Guard::Cunit</a>
   
+    <li><a href="./Guard/Cunit/CunitParser.html">Guard::Cunit::CunitParser</a>
+  
     <li><a href="./Guard/Cunit/Runner.html">Guard::Cunit::Runner</a>
   
     <li><a href="./Guard/CunitGuard.html">Guard::CunitGuard</a>
@@ -131,6 +133,8 @@
     <li><a href="./Object.html">Object</a>
   
     <li><a href="./TempPrjEnv.html">TempPrjEnv</a>
+  
+    <li><a href="./TestOutput.html">TestOutput</a>
   
   </ul>
 </nav>
@@ -179,7 +183,7 @@
 
           
           <div class="method-source-code" id="fake_test_exe-source">
-            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 46</span>
+            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fake_test_exe</span>(<span class="ruby-identifier">exe_name</span>,<span class="ruby-identifier">successful</span> = <span class="ruby-value">:fail</span>)
   <span class="ruby-identifier">exe_name</span>=<span class="ruby-node">&quot;#{File.basename(Dir.getwd)}_unit&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">exe_name</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">exe_name</span>,<span class="ruby-string">&quot;w+&quot;</span>)
@@ -215,7 +219,7 @@
 
           
           <div class="method-source-code" id="guardfile_has_unit_test_exe-source">
-            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 57</span>
+            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">guardfile_has_unit_test_exe</span>(<span class="ruby-identifier">params</span>={ <span class="ruby-value">:test_exe=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">nil</span>, <span class="ruby-value">:builder=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">nil</span>, <span class="ruby-value">:cleaner=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">nil</span>, <span class="ruby-value">:libdir=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">nil</span>})
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-string">&quot;Guardfile&quot;</span>,<span class="ruby-string">&quot;w+&quot;</span>,<span class="ruby-value">0644</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;guard \'cunit\'  do&quot;</span>
@@ -255,7 +259,7 @@
 
           
           <div class="method-source-code" id="popen_failing_fake-source">
-            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 40</span>
+            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">popen_failing_fake</span>(<span class="ruby-identifier">fakename</span>)
   <span class="ruby-constant">IO</span>.<span class="ruby-identifier">stub</span>(<span class="ruby-value">:popen</span>).<span class="ruby-identifier">with</span>(<span class="ruby-identifier">fakename</span>)
   <span class="ruby-constant">IO</span>.<span class="ruby-identifier">should_receive</span>(<span class="ruby-value">:popen</span>).<span class="ruby-identifier">with</span>(<span class="ruby-identifier">fakename</span>)  { <span class="ruby-value">%x(exit 1)`</span>}
@@ -286,7 +290,7 @@
 
           
           <div class="method-source-code" id="popen_successfull_fake-source">
-            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 34</span>
+            <pre><span class="ruby-comment"># File spec/spec_helper.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">popen_successfull_fake</span>(<span class="ruby-identifier">fakename</span>)
   <span class="ruby-constant">IO</span>.<span class="ruby-identifier">stub</span>(<span class="ruby-value">:popen</span>).<span class="ruby-identifier">with</span>(<span class="ruby-identifier">fakename</span>)
   <span class="ruby-constant">IO</span>.<span class="ruby-identifier">should_receive</span>(<span class="ruby-value">:popen</span>).<span class="ruby-identifier">with</span>(<span class="ruby-identifier">fakename</span>)  { <span class="ruby-value">%x(exit 0)`</span>}

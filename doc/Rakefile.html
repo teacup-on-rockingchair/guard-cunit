@@ -69,6 +69,8 @@
   
     <li><a href="./Guard/Cunit.html">Guard::Cunit</a>
   
+    <li><a href="./Guard/Cunit/CunitParser.html">Guard::Cunit::CunitParser</a>
+  
     <li><a href="./Guard/Cunit/Runner.html">Guard::Cunit::Runner</a>
   
     <li><a href="./Guard/CunitGuard.html">Guard::CunitGuard</a>
@@ -79,6 +81,8 @@
   
     <li><a href="./TempPrjEnv.html">TempPrjEnv</a>
   
+    <li><a href="./TestOutput.html">TestOutput</a>
+  
   </ul>
 </nav>
 
@@ -87,7 +91,33 @@
 
 <div id="documentation" class="description">
   
-<p>require “bundler/gem_tasks”</p>
+<p>require “bundler/gem_tasks” require ‘rspec/core/rake_task’</p>
+
+<p>Bundler::GemHelper.install_tasks</p>
+
+<p>task :default =&gt; [ :spec, :doc, :gem]</p>
+
+<p>desc “Run RSpec”</p>
+
+<pre class="ruby"><span class="ruby-constant">RSpec</span><span class="ruby-operator">::</span><span class="ruby-constant">Core</span><span class="ruby-operator">::</span><span class="ruby-constant">RakeTask</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">t</span>.<span class="ruby-identifier">rcov</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-string">'RCOV'</span>]
+  <span class="ruby-identifier">t</span>.<span class="ruby-identifier">rcov_opts</span> = <span class="ruby-node">%w{--exclude osx\/objc,gems\/,spec\/}</span>
+  <span class="ruby-identifier">t</span>.<span class="ruby-identifier">verbose</span> = <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>task :doc do</p>
+
+<pre>system 'rdoc -a -U'</pre>
+
+<p>end</p>
+
+<p>task :gem do</p>
+
+<pre>system 'rm guard-cunit*.gem'
+system 'gem build guard-cunit.gemspec'</pre>
+
+<p>end</p>
 
 </div>
 
