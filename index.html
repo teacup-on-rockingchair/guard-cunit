@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Guard-cunit : Guard for CUnit" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Guard-cunit</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/teacup-on-rockingchair/guard-cunit">View on GitHub</a>
+
+          <h1 id="project_title">Guard-cunit</h1>
+          <h2 id="project_tagline">Guard for CUnit</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/teacup-on-rockingchair/guard-cunit/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/teacup-on-rockingchair/guard-cunit/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Guard CUnit  <a href="http://travis-ci.org/teacup-on-rockingchair/guard-cunit"><img src="https://secure.travis-ci.org/teacup-on-rockingchair/guard-cunit.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>CUnit Guard allows you to run/watch Unit test for C modules, or anything other that works with Makefile</p>
+
+<p>Soon will add parser for CUnit tests, and probably other UT libs</p>
+
+<h2>Install</h2>
+
+<p>Need to have guard and also some of the notifiers that guard uses</p>
+
+<p>otherwise, get the gemfile and install it:</p>
+
+<pre><code>$ gem install ./guard-cunit-*.gem
+</code></pre>
+
+<p>will put that in rubygems soon</p>
+
+<h1>Guardfile</h1>
+
+<p>Generating the Guardfile is like all the other</p>
+
+<pre><code>$ guard init cunit
+</code></pre>
+
+<p>The file by default looks like this:</p>
+
+<pre><code># A sample Guardfile
+# More info at https://github.com/guard/guard#readme
+
+#
+# Cunit Guardfile - keep dflt builders after guard watcher's block
+#
+guard 'cunit' do
+      watch(%r{((.+)\.c$)|((.+)\.h$)|((M|m)akefile$)} ) 
+end
+
+set_builder "make 2&gt;&amp;1"
+set_cleaner "make clean"
+cunit_runner "#{File.basename(Dir.getwd)}_unit"
+libdir "#{Dir.getwd}"
+
+</code></pre>
+
+<p>After the guard block are the new methods from Guardfile DSL, which are used for the tasks needed to be performed on running the build/tests</p>
+
+<h2>Usage</h2>
+
+<p>For all other stuff related to guard's usage please read <a href="https://github.com/guard/guard#readme">Guard usage doc</a></p>
+
+<h2>Testing</h2>
+
+<p>Run rspec in top directory of the project or guard-rspec</p>
+
+<h2>Todo</h2>
+
+<ul>
+<li>fix all bugs :)</li>
+<li>add parser for CUNIT tests</li>
+<li>add hook for coverage</li>
+<li>... whatever wind blows ...</li>
+</ul><h2>Author</h2>
+
+<p><a href="https://github.com/strandjata">A tea cup on a rocking chair</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Guard-cunit maintained by <a href="https://github.com/teacup-on-rockingchair">teacup-on-rockingchair</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
