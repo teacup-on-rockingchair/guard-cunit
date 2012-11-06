@@ -49,34 +49,37 @@ describe Guard::Cunit do
       oldenv=ENV["LD_LIBRARY_PATH"]
       guardfile_has_unit_test_exe()
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run
       newenv =ENV["LD_LIBRARY_PATH"]
       newenv.should match("#{oldenv}:#{Dir.getwd}")
       ENV["LD_LIBRARY_PATH"]=oldenv
     end
+
+
     it "should set libpath to predefined lib directory when user has specified such in the Guardfile" do
       oldenv=ENV["LD_LIBRARY_PATH"]
       guardfile_has_unit_test_exe(:libdir=>'./lib')
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run
       newenv =ENV["LD_LIBRARY_PATH"]
       newenv.should match("#{oldenv}:#{Dir.getwd}/lib")
       ENV["LD_LIBRARY_PATH"]=oldenv      
     end
 
+
     it "should run cunit test define in the Guardfile" do
       guardfile_has_unit_test_exe(:test_exe => "jiji")
       fake_test_exe("jiji",:pass)
       cguard = Guard::Cunit.new
-      Guard::setup
+      Guard::reload
       cguard.run_all
 
       guardfile_has_unit_test_exe(:test_exe =>"didi")
       fake_test_exe("didi",:pass)
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run
       
     end
@@ -87,7 +90,7 @@ describe Guard::Cunit do
       fake_test_exe("jiji",:pass)
       popen_successfull_fake("./make_all.sh")
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run
 
     end
@@ -98,7 +101,7 @@ describe Guard::Cunit do
       popen_successfull_fake("./make_all.sh")
       popen_successfull_fake("./clean_all.sh")
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+    Guard::reload
       cguard.run
 
     end
@@ -112,7 +115,7 @@ describe Guard::Cunit do
       popen_successfull_fake("make clean")
       popen_failing_fake("make 2>&1")
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run.should == false
     end
 
@@ -122,11 +125,13 @@ describe Guard::Cunit do
       popen_successfull_fake("make 2>&1")
       fake_test_exe("jiji",:fail)
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run.should == false
     end
 
   end
+
+
   context "Displaying notifications" do
 
     it "should display failure if build fails" do
@@ -136,7 +141,7 @@ describe Guard::Cunit do
       popen_successfull_fake("make clean")
       popen_failing_fake("make 2>&1")
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run
     end
 
@@ -149,7 +154,7 @@ describe Guard::Cunit do
       popen_successfull_fake("make 2>&1")
       fake_test_exe("jiji",:fail)
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run
     end
 
@@ -160,7 +165,7 @@ describe Guard::Cunit do
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       cguard = Guard::Cunit::Runner.new
-      Guard::setup
+      Guard::reload
       cguard.run
     end
 
