@@ -67,6 +67,8 @@
   
     <li><a href="./Guard.html">Guard</a>
   
+    <li><a href="./Guard.html">Guard</a>
+  
     <li><a href="./Guard/Cunit.html">Guard::Cunit</a>
   
     <li><a href="./Guard/Cunit/CunitParser.html">Guard::Cunit::CunitParser</a>
@@ -97,14 +99,13 @@
 
 <p>task :default =&gt; [ :spec, :doc, :gem]</p>
 
-<p>desc “Run RSpec”</p>
+<p>desc “Run RSpec” RSpec::Core::RakeTask.new do |t|</p>
 
-<pre class="ruby"><span class="ruby-constant">RSpec</span><span class="ruby-operator">::</span><span class="ruby-constant">Core</span><span class="ruby-operator">::</span><span class="ruby-constant">RakeTask</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">t</span>.<span class="ruby-identifier">rcov</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-string">'RCOV'</span>]
-  <span class="ruby-identifier">t</span>.<span class="ruby-identifier">rcov_opts</span> = <span class="ruby-node">%w{--exclude osx\/objc,gems\/,spec\/}</span>
-  <span class="ruby-identifier">t</span>.<span class="ruby-identifier">verbose</span> = <span class="ruby-keyword">true</span>
-<span class="ruby-keyword">end</span>
-</pre>
+<pre>t.rcov = ENV['RCOV']
+t.rcov_opts = %w{--exclude osx\/objc,gems\/,spec\/}
+t.verbose = true</pre>
+
+<p>end</p>
 
 <p>task :doc do</p>
 

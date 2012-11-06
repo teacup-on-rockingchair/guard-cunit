@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.version     = Guard::CunitGuard::VERSION
   s.authors	= ["Tea Cup On Rocking Chair"]
   s.email       = ["strandjata@gmail.com"]
+  s.platform	= Gem::Platform::CURRENT
   s.homepage    = "http://teacup-on-rockingchair.github.com/guard-cunit/"
   s.summary     = %q{Guard gem for CUnit-driven projects}
   s.description = %q{Guard Cunit should automatically build your C project and run CUnit based tests}

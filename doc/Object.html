@@ -91,6 +91,8 @@
     
     <li><a href="#method-i-popen_successfull_fake">#popen_successfull_fake</a>
     
+    <li><a href="#method-i-setup_guard">#setup_guard</a>
+    
   </ul>
 </nav>
 
@@ -117,6 +119,8 @@
   <h3 class="section-header">Class and Module Index</h3>
 
   <ul class="link-list">
+  
+    <li><a href="./Guard.html">Guard</a>
   
     <li><a href="./Guard.html">Guard</a>
   
@@ -303,6 +307,41 @@
 
         
       </div><!-- popen_successfull_fake-method -->
+
+    
+      <div id="method-i-setup_guard" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">setup_guard</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="setup_guard-source">
+            <pre><span class="ruby-comment"># File spec/guard_cunit_spec.rb, line 10</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">setup_guard</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@first</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-constant">Guard</span><span class="ruby-operator">::</span><span class="ruby-identifier">setup</span>
+    <span class="ruby-identifier">@@first</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-constant">Guard</span><span class="ruby-operator">::</span><span class="ruby-identifier">reload</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- setup_guard-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- setup_guard-method -->
 
     
     </section><!-- public-instance-method-details -->
