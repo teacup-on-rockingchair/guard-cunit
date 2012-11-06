@@ -3,8 +3,10 @@ require "spec_helper.rb"
 
 describe Guard::Cunit do
 
-  class_variable_set(:@@first, true)
-  
+  before (:all) do
+    @@first = true
+  end
+
   def setup_guard
     if @@first == true
       Guard::setup
