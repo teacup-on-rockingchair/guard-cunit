@@ -9,7 +9,7 @@ describe Guard::Cunit do
 
   def setup_guard
     if @@first == true
-      Guard::setup
+      Guard::setup({:no_interactions => true})
       @@first = false
     else
       Guard::reload
