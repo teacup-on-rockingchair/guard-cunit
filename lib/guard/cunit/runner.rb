@@ -43,7 +43,7 @@ module Guard
      #
      def run_task(task_executable)
        success = true
-       IO.popen(task_executable)  do |myio|
+       IO.popen(task_executable.split << {:err=>[:child, :out]})  do |myio|
          @current_output = myio.read
        end
        success = false unless $?.exitstatus == 0

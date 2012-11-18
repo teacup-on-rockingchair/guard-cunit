@@ -34,14 +34,14 @@ end
 
 # setup stub for system command with successful exit result
 def popen_successfull_fake(fakename)
-  IO.stub(:popen).with(fakename)
-  IO.should_receive(:popen).with(fakename)  { `(exit 0)`}
+  IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]})
+  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})  { `(exit 0)`}
 end
 
 # setup stub for system command with failing exit result
 def popen_failing_fake(fakename)
-  IO.stub(:popen).with(fakename)
-  IO.should_receive(:popen).with(fakename)  { `(exit 1)`}
+  IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]}) 
+  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})   { `(exit 1)`}
 end
 
 # fake the test executable runner, its existance and result
