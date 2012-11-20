@@ -1,6 +1,5 @@
 require "spec_helper.rb"
 
-
 describe Guard::Cunit do
 
   before (:all) do
@@ -131,6 +130,19 @@ describe Guard::Cunit do
       setup_guard
       cguard.run.should == false
     end
+
+    it "should block further tasks on build failed" do
+      guardfile_has_unit_test_exe(:test_exe=>"jiji")
+      popen_successfull_fake("make clean")
+      popen_failing_fake("make 2>&1")
+      File.new("jiji","w+")
+      IO.stub(:popen).with("jiji".split << {:err=>[:child, :out]})
+      IO.should_not_receive(:popen).with("jiji".split << {:err=>[:child, :out]}) 
+      cguard = Guard::Cunit::Runner.new
+      setup_guard
+      cguard.run.should == false
+    end
+
 
     it "should report failure on test failed" do
       guardfile_has_unit_test_exe(:test_exe=>"jiji")

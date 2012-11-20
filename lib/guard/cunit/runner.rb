@@ -53,7 +53,7 @@ module Guard
      
      # run clean before each run all start with clean
      def run_clean
-       run_task(@@project_cleaner)
+       raise "Clean failed" unless  run_task(@@project_cleaner) == true
      end
      
      # run unit tests via cunit executable
@@ -73,7 +73,7 @@ module Guard
            Notifier.notify("Failed", :title => "Test Failed", :image => :failed, :priority => 2,:message => @parser.failures_output)
          end
        end
-       success
+       raise "Test failed" unless success == true
      end
      
      
@@ -81,6 +81,7 @@ module Guard
      def run_make
        success = run_task(@@project_builder)
        Notifier.notify("Failed", :title => "Build Failed", :image => :failed, :priority => 2) unless success == true
+       raise "Build failed" unless success == true
      end
      # run them all
      def run 
@@ -88,10 +89,14 @@ module Guard
        UI.info "Builder:  #{@@project_builder}"
        UI.info "Cleaner: #{@@project_cleaner}"
        UI.info "Libdir: #{@@project_libdir}"
-       
-       run_clean
-       run_make
-       run_tests
+       begin
+         run_clean
+         run_make 
+         run_tests
+       rescue
+         return false
+       end
+       true
      end
      
    end
