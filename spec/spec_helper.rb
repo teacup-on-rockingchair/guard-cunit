@@ -32,16 +32,38 @@ class TempPrjEnv
   end
 end
 
+#define fake script to return given exit code
+def fake_script(code)
+	
+	case RUBY_PLATFORM	
+		when /mingw/
+			`exit #{code}`
+		when /mswin/
+			`exit #{code}`
+		else
+			`(exit #{code})`
+		end
+end
+
+#define fake script to return success
+def fake_success
+	fake_script(0)
+end
+#define fake script to return success
+def fake_fail
+	fake_script(1)
+end
+
 # setup stub for system command with successful exit result
 def popen_successfull_fake(fakename)
-  IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]})
-  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})  { `(exit 0)`}
+  IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]})	
+  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})  { fake_success}
 end
 
 # setup stub for system command with failing exit result
 def popen_failing_fake(fakename)
   IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]}) 
-  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})   { `(exit 1)`}
+  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})   { fake_fail }
 end
 
 # fake the test executable runner, its existance and result
