@@ -37,6 +37,7 @@ module Guard
        @output = TestOutput.new(task_output.dup)
        get_summary
        get_failures
+       @failures
      end
      
      # find summary of the cunit test reprot
@@ -44,14 +45,14 @@ module Guard
        begin
          @summary_output = TestOutput.new(@output[/Run Summary:[\w\W]*/])
        rescue
-         @Summary_output = TestOutput.new("")
+         @summary_output = TestOutput.new("")
        end
      end
 
      #find failures from Cunit test report
      def get_failures
        begin
-         @failures = TestOutput.new(@output[/Suite[\w\W]*/].sub(@summary_output,"").strip)
+         @failures = TestOutput.new(@output[/[\r\n]*[ \t\f]*1. [\w\W]*:[\d]* [\w\W]*/].sub(@summary_output,"").strip)
        rescue
          @failures = TestOutput.new("")
        end

@@ -75,11 +75,11 @@ module Guard
          success = false
        else
          success = run_task(@@cunit_runner)
-         @parser.parse_output(@current_output) unless (@current_output == nil)
+         (msg = @parser.parse_output(@current_output)) unless (@current_output == nil)
          if success == true
            Notifier.notify("Success", :title => "Test Passed", :image => :passed, :priority => 2)
          else
-           Notifier.notify("Failed", :title => "Test Failed", :image => :failed, :priority => 2,:message => @parser.failures_output)
+           Notifier.notify("Failed", :title => "Test Failed", :image => :failed, :priority => 2,:message => msg)
          end
        end
        raise "Test failed" unless success == true

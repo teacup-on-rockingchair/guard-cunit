@@ -41,8 +41,7 @@ Run Summary:    Type  Total    Ran Passed Failed Inactive
 
 Elapsed time =    0.000 seconds")
 
-@fake_fail_summary = String.new("Suite  Simple calc CUNIT suite, Test Addition test had failures:
-    1. simplecalc_test.c:7  - CU_FAIL(\"TODO\")")
+@fake_fail_summary = String.new("1. simplecalc_test.c:7  - CU_FAIL(\"TODO\")")
 
 @fake_summary = String.new("Run Summary:    Type  Total    Ran Passed Failed Inactive
               suites      1      1    n/a      0        0
@@ -51,9 +50,9 @@ Elapsed time =    0.000 seconds")
 
 Elapsed time =    0.000 seconds")
 
-@shortened_fail_summary = String.new("Suite  Simple calc CUNIT suite, Test Addition test had failures:
-    1. simplecalc_test.c:7  - CU_FAIL(\"TODO\")
+@shortened_fail_summary = String.new("1. simplecalc_test.c:7  - CU_FAIL(\"TODO\")
     2. simplecalc_test.c:17  - CU_FAIL(\"TODO\")
+    3. simplecalc_test.c:27  - CU_FAIL(\"TODO\")
 ...")
 
   end

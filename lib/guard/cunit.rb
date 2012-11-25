@@ -38,7 +38,7 @@ module Guard
     def initialize
       super
       set_cleaner("make clean")
-      cunit_runner("#{File.basename(Dir.getwd)}_unit")
+      cunit_runner("./#{File.basename(Dir.getwd)}_unit")
       set_builder("make 2>&1")
       libdir("#{Dir.getwd}")
       @runner = Cunit::Runner.new

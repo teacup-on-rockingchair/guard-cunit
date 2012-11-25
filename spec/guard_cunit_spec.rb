@@ -39,7 +39,7 @@ describe Guard::Cunit do
       guardfile_has_unit_test_exe()
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
-      fake_test_exe("#{File.basename(Dir.getwd)}_unit",:pass)
+      fake_test_exe("./#{File.basename(Dir.getwd)}_unit",:pass)
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
@@ -63,7 +63,7 @@ describe Guard::Cunit do
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
-      fake_test_exe("jiji",:pass)
+      fake_test_exe("./jiji",:pass)
       
       cguard = Guard::Cunit::Runner.new
       setup_guard
@@ -80,7 +80,7 @@ describe Guard::Cunit do
       guardfile_has_unit_test_exe(:test_exe=>"jiji",:libdir=>'./lib')
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
-      fake_test_exe("jiji",:pass)
+      fake_test_exe("./jiji",:pass)
       
       cguard = Guard::Cunit::Runner.new
       setup_guard
@@ -98,7 +98,7 @@ describe Guard::Cunit do
       popen_successfull_fake("make 2>&1")
 
 
-      fake_test_exe("didi",:pass)
+      fake_test_exe("./didi",:pass)
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
@@ -108,7 +108,7 @@ describe Guard::Cunit do
 
     it "should run predefined build command" do 
       guardfile_has_unit_test_exe(:test_exe =>"jiji",:builder => "./make_all.sh")
-      fake_test_exe("jiji",:pass)
+      fake_test_exe("./jiji",:pass)
       popen_successfull_fake("./make_all.sh")
       
       popen_successfull_fake("make clean")
@@ -121,7 +121,7 @@ describe Guard::Cunit do
 
     it "should run predefined clean command" do 
       guardfile_has_unit_test_exe(:test_exe =>"jiji",:builder => "./make_all.sh",:cleaner=> "./clean_all.sh")
-      fake_test_exe("jiji",:pass)
+      fake_test_exe("./jiji",:pass)
       popen_successfull_fake("./make_all.sh")
       popen_successfull_fake("./clean_all.sh")
       cguard = Guard::Cunit::Runner.new
@@ -148,8 +148,8 @@ describe Guard::Cunit do
       popen_successfull_fake("make clean")
       popen_failing_fake("make 2>&1")
       File.new("jiji","w+")
-      IO.stub(:popen).with("jiji".split << {:err=>[:child, :out]})
-      IO.should_not_receive(:popen).with("jiji".split << {:err=>[:child, :out]}) 
+      IO.stub(:popen).with("./jiji".split << {:err=>[:child, :out]})
+      IO.should_not_receive(:popen).with("./jiji".split << {:err=>[:child, :out]}) 
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run.should == false
@@ -160,7 +160,7 @@ describe Guard::Cunit do
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
-      fake_test_exe("jiji",:fail)
+      fake_test_exe("./jiji",:fail)
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run.should == false
@@ -189,7 +189,7 @@ describe Guard::Cunit do
       Guard::Notifier.should_receive(:notify).with("Failed", :title => "Test Failed", :image => :failed, :priority => 2, :message => anything() )
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
-      fake_test_exe("jiji",:fail)
+      fake_test_exe("./jiji",:fail)
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
@@ -232,7 +232,7 @@ describe Guard::Cunit do
       cguard.parser.stub(:parse_output)
       cguard.parser.should_receive(:parse_output).with("failing output")
       cguard.output = "failing output"
-      cguard.stub(:run_task).with("jiji") { 1 }
+      cguard.stub(:run_task).with("./jiji") { 1 }
       setup_guard
       begin
         cguard.run_tests
