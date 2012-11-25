@@ -11,7 +11,7 @@ describe Guard::Cunit do
       Guard::setup({:no_interactions => true})
       @@first = false
     else
-      Guard::reload
+      Guard::reload({})
     end
   end
 
@@ -20,7 +20,7 @@ describe Guard::Cunit do
     @work_dir = Dir.getwd
     Dir.chdir(tmp_work_dir)
     Guard::UI.stub(:info)
-     IO.stub(:popen)
+    IO.stub(:popen)
   end
 
   after(:each) do
@@ -59,7 +59,12 @@ describe Guard::Cunit do
 
     it "should set libpath for executbles with current project directory by default" do
       oldenv=ENV["LD_LIBRARY_PATH"]
-      guardfile_has_unit_test_exe()
+      
+      guardfile_has_unit_test_exe(:test_exe=>"jiji")
+      popen_successfull_fake("make clean")
+      popen_successfull_fake("make 2>&1")
+      fake_test_exe("jiji",:pass)
+      
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
@@ -71,7 +76,12 @@ describe Guard::Cunit do
 
     it "should set libpath to predefined lib directory when user has specified such in the Guardfile" do
       oldenv=ENV["LD_LIBRARY_PATH"]
-      guardfile_has_unit_test_exe(:libdir=>'./lib')
+      
+      guardfile_has_unit_test_exe(:test_exe=>"jiji",:libdir=>'./lib')
+      popen_successfull_fake("make clean")
+      popen_successfull_fake("make 2>&1")
+      fake_test_exe("jiji",:pass)
+      
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
@@ -82,13 +92,12 @@ describe Guard::Cunit do
 
 
     it "should run cunit test define in the Guardfile" do
-      guardfile_has_unit_test_exe(:test_exe => "jiji")
-      fake_test_exe("jiji",:pass)
-      cguard = Guard::Cunit.new
-      setup_guard
-      cguard.run_all
-
       guardfile_has_unit_test_exe(:test_exe =>"didi")
+      
+      popen_successfull_fake("make clean")
+      popen_successfull_fake("make 2>&1")
+
+
       fake_test_exe("didi",:pass)
       cguard = Guard::Cunit::Runner.new
       setup_guard
@@ -101,6 +110,9 @@ describe Guard::Cunit do
       guardfile_has_unit_test_exe(:test_exe =>"jiji",:builder => "./make_all.sh")
       fake_test_exe("jiji",:pass)
       popen_successfull_fake("./make_all.sh")
+      
+      popen_successfull_fake("make clean")
+            
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
@@ -206,5 +218,22 @@ describe Guard::Cunit do
       cguard.run
     end
   end
+
+ context "Displaying notifications" do
+    it "should pass test exe output to parser" do
+      IO.stub(:popen)
+      Guard::Cunit::CunitParser.stub(:parse_output)
+      Guard::Notifier.stub(:notify) 
+      guardfile_has_unit_test_exe(:test_exe=>"jiji")
+      Guard::Cunit::CunitParser.should_receive(:parse_output).with("failing output")
+      popen_successfull_fake("make clean")
+      popen_successfull_fake("make 2>&1")
+      fake_test_exe_output("jiji",:fail,"failing output")
+      cguard = Guard::Cunit::Runner.new
+      setup_guard
+      cguard.run
+    end
+  end
+
 
 end

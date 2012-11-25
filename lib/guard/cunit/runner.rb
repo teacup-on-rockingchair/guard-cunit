@@ -66,7 +66,7 @@ module Guard
          success = false
        else
          success = run_task(@@cunit_runner)
-         @parser.parse_output(@current_output) unless (@cunit_output == nil)
+         @parser.parse_output(@current_output) unless (@current_output == nil)
          if success == true
            Notifier.notify("Success", :title => "Test Passed", :image => :passed, :priority => 2)
          else
