@@ -77,19 +77,6 @@ def fake_test_exe(exe_name,successful = :fail)
   end
 end
 
-# fake the test executable runner, its existance	 result and output
-def fake_test_exe_output(fakename,successful = :fail,output)
-  fakename="#{File.basename(Dir.getwd)}_unit" unless fakename != nil
-  File.new(fakename,"w+")
-  if successful == :pass
-    IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]})	
-    IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})  { `echo #{ouput}` << fake_success }
-  else
-    IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]})	
-    IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})  { `echo #{ouput}` << fake_fail }
-  end
-end
-
 # a generator for CUnit Guardfile
 def guardfile_has_unit_test_exe(params={ :test_exe=>nil, :builder=>nil, :cleaner=>nil, :libdir=>nil})
   File.open("Guardfile","w+",0644) do |file|

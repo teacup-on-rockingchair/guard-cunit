@@ -37,7 +37,16 @@ module Guard
      def self.set_libdir(name)
        @@project_libdir=name
      end
-     
+
+     #accessor for the parser
+     def parser
+       @parser
+     end
+
+     def output=(output)
+       @current_output=output
+     end
+
      #
      # run one phase of the guard via a system command/executable
      #

@@ -219,19 +219,26 @@ describe Guard::Cunit do
     end
   end
 
- context "Displaying notifications" do
+ context "Test runner" do
     it "should pass test exe output to parser" do
       IO.stub(:popen)
-      Guard::Cunit::CunitParser.stub(:parse_output)
+
       Guard::Notifier.stub(:notify) 
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
-      Guard::Cunit::CunitParser.should_receive(:parse_output).with("failing output")
-      popen_successfull_fake("make clean")
-      popen_successfull_fake("make 2>&1")
-      fake_test_exe_output("jiji",:fail,"failing output")
+
+      File.new("jiji","w+")
+
       cguard = Guard::Cunit::Runner.new
+      cguard.parser.stub(:parse_output)
+      cguard.parser.should_receive(:parse_output).with("failing output")
+      cguard.output = "failing output"
+      cguard.stub(:run_task).with("jiji") { 1 }
       setup_guard
-      cguard.run
+      begin
+        cguard.run_tests
+      rescue
+      end
+
     end
   end
 
