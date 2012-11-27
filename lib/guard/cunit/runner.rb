@@ -38,15 +38,6 @@ module Guard
        @@project_libdir=name
      end
 
-     #accessor for the parser
-     def parser
-       @parser
-     end
-
-     def output=(output)
-       @current_output=output
-     end
-
      #
      # run one phase of the guard via a system command/executable
      #
@@ -75,11 +66,11 @@ module Guard
          success = false
        else
          success = run_task(@@cunit_runner)
-         (msg = @parser.parse_output(@current_output)) unless (@current_output == nil)
+          @parser.parse_output(@current_output)
          if success == true
            Notifier.notify("Success", :title => "Test Passed", :image => :passed, :priority => 2)
          else
-           Notifier.notify("Failed", :title => "Test Failed", :image => :failed, :priority => 2,:message => msg)
+           Notifier.notify(@parser.failures_output, :title => "Test Failed", :image => :failed, :priority => 2 )
          end
        end
        raise "Test failed" unless success == true

@@ -72,7 +72,12 @@ Elapsed time =    0.000 seconds")
 
   it "should be able to init with no output and later trigger process" do
     parser = Guard::Cunit::CunitParser.new()
-    parser.parse_output @long_fake_output
+    parser.parse_output(@long_fake_output)
     parser.failures_output.should == (@shortened_fail_summary)
+  end
+  it "should be able to handle test exe with no output and put just failed as failure message" do
+    parser = Guard::Cunit::CunitParser.new()
+    parser.parse_output(nil)
+    parser.failures_output.should == ("Failed")
   end
 end

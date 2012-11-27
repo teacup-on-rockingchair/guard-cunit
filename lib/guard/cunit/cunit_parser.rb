@@ -34,10 +34,10 @@ module Guard
      
      #get cunit output
      def parse_output( task_output )
+       task_output = "" unless task_output != nil
        @output = TestOutput.new(task_output.dup)
        get_summary
        get_failures
-       @failures
      end
      
      # find summary of the cunit test reprot
@@ -54,7 +54,7 @@ module Guard
        begin
          @failures = TestOutput.new(@output[/[\r\n]*[ \t\f]*1. [\w\W]*:[\d]* [\w\W]*/].sub(@summary_output,"").strip)
        rescue
-         @failures = TestOutput.new("")
+         @failures = TestOutput.new("Failed")
        end
        @failures.limit_to_rows!(3)
      end
