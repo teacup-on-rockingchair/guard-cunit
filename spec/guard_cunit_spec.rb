@@ -1,5 +1,4 @@
 require "spec_helper.rb"
-require "ruby-debug"
 
 describe Guard::Cunit do
 
