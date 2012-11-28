@@ -55,11 +55,22 @@ module Guard
      def run_clean
        raise "Clean failed" unless  run_task(@@project_cleaner) == true
      end
-     
+     def export_libdir(libdir)
+	 	case RUBY_PLATFORM	
+		when /mingw/
+			ENV["PATH"]="#{ENV["PATH"]};#{libdir}"
+		when /mswin/
+			ENV["PATH"]="#{ENV["PATH"]};#{libdir}"
+		when /darwin/
+			ENV["DYLD_LIBRARY_PATH"]="#{ENV["DYLD_LIBRARY_PATH"]}:#{libdir}"
+		else
+			ENV["LD_LIBRARY_PATH"]="#{ENV["LD_LIBRARY_PATH"]}:#{libdir}"
+		end
+	 end
      # run unit tests via cunit executable
      def run_tests
        # setup environment so it should include lib dir for ld path
-       ENV["LD_LIBRARY_PATH"]="#{ENV["LD_LIBRARY_PATH"]}:#{@@project_libdir}"
+       export_libdir(@@project_libdir)
        
        if( !File.exists? (@@cunit_runner) )
          Notifier.notify("Pending", :title => "Test Not Defined", :image => :pending, :priority => 2)

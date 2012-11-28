@@ -6,6 +6,18 @@ describe Guard::Cunit do
     @@first = true
   end
 
+ def get_ld_path
+	case RUBY_PLATFORM	
+		when /mingw/
+			ENV["PATH"]
+		when /mswin/
+			ENV["PATH"]
+		when /darwin/
+			ENV["DYLD_LIBRARY_PATH"]
+		else
+			ENV["LD_LIBRARY_PATH"]
+		end
+ end
   def setup_guard
     if @@first == true
       Guard::setup({:no_interactions => true})
@@ -58,8 +70,8 @@ describe Guard::Cunit do
     end
 
     it "should set libpath for executbles with current project directory by default" do
-      oldenv=ENV["LD_LIBRARY_PATH"]
-      
+	  oldenv=get_ld_path
+            
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
@@ -68,16 +80,17 @@ describe Guard::Cunit do
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
-      newenv =ENV["LD_LIBRARY_PATH"]
-      newenv.should match("#{oldenv}:#{Dir.getwd}")
-      ENV["LD_LIBRARY_PATH"]=oldenv
+      newenv =get_ld_path
+      newenv.should include("#{oldenv}")
+	  newenv.should include("#{Dir.getwd}")
+      get_ld_path=oldenv
     end
 
 
     it "should set libpath to predefined lib directory when user has specified such in the Guardfile" do
-      oldenv=ENV["LD_LIBRARY_PATH"]
+      oldenv=get_ld_path
       
-      guardfile_has_unit_test_exe(:test_exe=>"jiji",:libdir=>'./lib')
+      guardfile_has_unit_test_exe(:test_exe=>"jiji",:libdir=>'lib')
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       fake_test_exe("./jiji",:pass)
@@ -85,9 +98,10 @@ describe Guard::Cunit do
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
-      newenv =ENV["LD_LIBRARY_PATH"]
-      newenv.should match("#{oldenv}:#{Dir.getwd}/lib")
-      ENV["LD_LIBRARY_PATH"]=oldenv      
+      newenv =get_ld_path
+      newenv.should include("#{oldenv}")
+	  newenv.should include("#{File.join(Dir.getwd,"lib")}")
+      get_ld_path=oldenv     
     end
 
 
@@ -147,9 +161,9 @@ describe Guard::Cunit do
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
       popen_successfull_fake("make clean")
       popen_failing_fake("make 2>&1")
-      File.new("jiji","w+")
-      IO.stub(:popen).with("./jiji".split << {:err=>[:child, :out]})
-      IO.should_not_receive(:popen).with("./jiji".split << {:err=>[:child, :out]}) 
+      File.new("./jiji","w+")
+      IO.stub(:popen).with("jiji".split << {:err=>[:child, :out]})
+      IO.should_not_receive(:popen).with("jiji".split << {:err=>[:child, :out]}) 
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run.should == false
