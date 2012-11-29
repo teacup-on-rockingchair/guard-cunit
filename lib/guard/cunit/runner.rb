@@ -37,15 +37,31 @@ module Guard
      def self.set_libdir(name)
        @@project_libdir=name
      end
-
+ 	
+	 #
+	 # make wrapper for piping so we can use different approaches on win and *nix
+	 #
+	 def piper(exe)
+		case RUBY_PLATFORM	
+		when /mingw/,/mswin/
+			IO.popen(exe.split) {|io|
+				yield io
+			}	
+		else
+			IO.popen(exe.split << {:err=>[:child, :out]}) {|io|
+				yield io
+			}	
+		end
+		
+	 end
      #
      # run one phase of the guard via a system command/executable
      #
      def run_task(task_executable)
        success = true
-       IO.popen(task_executable.split << {:err=>[:child, :out]})  do |myio|
-         @current_output = myio.read
-       end
+	   piper(task_executable) {|myio|
+		@current_output = myio.read
+	   }
        success = false unless $?.exitstatus == 0
        UI.info @current_output
        success
@@ -57,9 +73,7 @@ module Guard
      end
      def export_libdir(libdir)
 	 	case RUBY_PLATFORM	
-		when /mingw/
-			ENV["PATH"]="#{ENV["PATH"]};#{libdir}"
-		when /mswin/
+		when /mingw/,/mswin/
 			ENV["PATH"]="#{ENV["PATH"]};#{libdir}"
 		when /darwin/
 			ENV["DYLD_LIBRARY_PATH"]="#{ENV["DYLD_LIBRARY_PATH"]}:#{libdir}"

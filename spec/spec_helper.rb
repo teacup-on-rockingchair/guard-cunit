@@ -46,25 +46,35 @@ def fake_script(code)
 		end
 end
 
-#define fake script to return success
-def fake_success
-	fake_script(0)
+
+#wrapper for popen for different platforms
+def popen_fake(fakename,exp_result)
+
+	case RUBY_PLATFORM	
+	when /mingw/,/mswin/
+		pipe_args = fakename.split		
+	else
+		pipe_args = fakename.split << {:err=>[:child, :out]}
+	end
+	
+	IO.stub(:popen).with(pipe_args)	
+	if exp_result == false
+		IO.should_receive(:popen).with(pipe_args) { fake_script(1) }
+	else	
+		IO.should_receive(:popen).with(pipe_args) { fake_script(0) }
+	end
 end
-#define fake script to return success
-def fake_fail
-	fake_script(1)
-end
+
 
 # setup stub for system command with successful exit result
 def popen_successfull_fake(fakename)
-  IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]})	
-  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})  { fake_success}
+	 popen_fake(fakename,true)
 end
 
 # setup stub for system command with failing exit result
 def popen_failing_fake(fakename)
-  IO.stub(:popen).with(fakename.split << {:err=>[:child, :out]}) 
-  IO.should_receive(:popen).with(fakename.split << {:err=>[:child, :out]})   { fake_fail }
+	
+	popen_fake(fakename,false)
 end
 
 # fake the test executable runner, its existance and result
