@@ -1,4 +1,6 @@
 require 'rubygems'
+require 'fileutils'
+require 'pathname'
 require 'guard'
 require 'guard/cunit'
 require 'guard/cunit/runner'
@@ -7,27 +9,28 @@ require 'rspec'
 
 # a class to set/cleanup environment for fake project
 class TempPrjEnv
-
-  @test_tmp = "./tmp"
-  @test_prj_dir="./tmp/1test_prj"
+  def initialize
+    @test_tmp = (Pathname.new(Dir.getwd)+"tmp").to_s
+    @test_prj_dir= ((Pathname.new(Dir.getwd)+"tmp")+"1test_prj").to_s
+  end
 
   # create a tmp subdir and within it fake project directory
-  def self.create_tmp_prj_dir
+  def create_tmp_prj_dir
     begin
-      Dir.mkdir(@test_tmp)
-      Dir.mkdir(@test_prj_dir)
-    rescue
+      Dir.mkdir(@test_tmp,0777)
+      Dir.mkdir(@test_prj_dir,0777)
+    rescue Exception => e
+      puts "Could not make #{@test_tmp} dirs at #{Dir.getwd} - #{e.to_s}"
     end
-    @test_prj_dir
+    @test_prj_dir 
   end
 
   # cleanup the subdir
-  def self.cleanup_tmp_prj_dir
+  def cleanup_tmp_prj_dir
     begin
-      FileUtils.rm_rf(@test_prj_dir)
-      FileUtils.rm_rf(@test_tmp)
-    rescue
-      puts "Could not remove dirs"
+      FileUtils.rm_r(@test_tmp)
+    rescue  Exception => e
+      puts "Could not remove dirs #{e.to_s}"
     end
   end
 end
@@ -79,7 +82,8 @@ end
 # fake the test executable runner, its existance and result
 def fake_test_exe(exe_name,successful = :fail)
   exe_name="./#{File.basename(Dir.getwd)}_unit" unless exe_name != nil
-  File.new(exe_name,"w+")
+  f = File.new(exe_name, "w+", 0666)
+  f.close
   if successful == :pass
     popen_successfull_fake(exe_name)
   else

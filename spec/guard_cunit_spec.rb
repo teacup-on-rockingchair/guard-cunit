@@ -4,6 +4,8 @@ describe Guard::Cunit do
 
   before (:all) do
     @@first = true
+    @tmp_env = TempPrjEnv.new
+    @work_dir = Dir.getwd
   end
 
  def get_ld_path
@@ -28,16 +30,16 @@ describe Guard::Cunit do
   end
 
   before(:each) do
-    tmp_work_dir=TempPrjEnv.create_tmp_prj_dir
-    @work_dir = Dir.getwd
-    Dir.chdir(tmp_work_dir)
+    Dir.chdir(@work_dir)
+    tmp_work_dir=@tmp_env.create_tmp_prj_dir
+    Dir.chdir((tmp_work_dir))
     Guard::UI.stub(:info)
     IO.stub(:popen)
   end
 
   after(:each) do
     Dir.chdir(@work_dir)
-    TempPrjEnv.cleanup_tmp_prj_dir
+    @tmp_env.cleanup_tmp_prj_dir
   end
 
   it "should inherit Guard class" do
@@ -161,7 +163,8 @@ describe Guard::Cunit do
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
       popen_successfull_fake("make clean")
       popen_failing_fake("make 2>&1")
-      File.new("./jiji","w+")
+      f = File.new("./jiji", "w+", 0666)
+      f.close
       IO.stub(:popen).with("jiji".split << {:err=>[:child, :out]})
       IO.should_not_receive(:popen).with("jiji".split << {:err=>[:child, :out]}) 
       cguard = Guard::Cunit::Runner.new
