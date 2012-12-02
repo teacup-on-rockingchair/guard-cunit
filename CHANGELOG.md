@@ -1,4 +1,28 @@
-# Chagelog
+ # Chagelog
+
+##  version 0.0.2 
+### more bugfixes
+commit fc72fdc5b23ea146d37554151eb7681bb0f615ee
+Date:   Sun Dec 2 20:25:26 2012 +0200
+
+    add fixes for running rspec in cleaner environment and increased version
+    where platform indpendant gem should be used
+
+commit a24dc9f1458a7e200b825c62c9ecd96836fa378e
+Date:   Sun Dec 2 17:08:17 2012 +0200
+
+    reworked popen usage for legacy runy versions and win/mac
+    incompatabilities
+
+commit f4c578a2974b19e594e6180ca2ad5a27e4edc5ba
+Date:   Thu Nov 29 17:07:27 2012 +0200
+
+    fix problem with pipes on windows
+
+commit 94d611475656105b72680dca8aebac6ca7ab3344
+Date:   Wed Nov 28 10:46:16 2012 +0200
+
+    rework adding library to search path for win and mac
 
 ### Bug fix
 commit fd83634f375f76fb7ef5af72516f6afe6f07946c
