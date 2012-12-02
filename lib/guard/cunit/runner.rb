@@ -42,16 +42,15 @@ module Guard
 	 # make wrapper for piping so we can use different approaches on win and *nix
 	 #
 	 def piper(exe)
-		case RUBY_PLATFORM	
-		when /mingw/,/mswin/
-			IO.popen(exe.split) {|io|
-				yield io
-			}	
-		else
-			IO.popen(exe.split << {:err=>[:child, :out]}) {|io|
-				yield io
-			}	
-		end
+           if( RUBY_PLATFORM.match(/mingw/)||RUBY_PLATFORM.match(/mswin/)||RUBY_VERSION.match("1.8"))
+             IO.popen(exe) {|io|
+               yield io
+             }	
+           else
+             IO.popen(exe.split << {:err=>[:child, :out]}) {|io|
+               yield io
+             }	
+           end
 		
 	 end
      #

@@ -50,9 +50,8 @@ end
 #wrapper for popen for different platforms
 def popen_fake(fakename,exp_result)
 
-	case RUBY_PLATFORM	
-	when /mingw/,/mswin/
-		pipe_args = fakename.split		
+	if( RUBY_PLATFORM.match(/mingw/)||RUBY_PLATFORM.match(/mswin/)||RUBY_VERSION.match("1.8"))
+		pipe_args = fakename		
 	else
 		pipe_args = fakename.split << {:err=>[:child, :out]}
 	end
