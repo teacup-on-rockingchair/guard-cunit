@@ -226,7 +226,7 @@ describe Guard::Cunit do
     it "should display success if build and test succeeded" do
       Guard::Notifier.stub(:notify) 
       guardfile_has_unit_test_exe()
-      Guard::Notifier.should_receive(:notify).with("Success", :title => "Test Passed", :image => :passed, :priority => 2)
+      Guard::Notifier.should_receive(:notify).with("Success", :title => "Test Passed", :image => :success, :priority => 2)
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       fake_test_exe(nil,:pass)
