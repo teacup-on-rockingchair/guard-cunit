@@ -2,7 +2,7 @@
 
 CUnit Guard allows you to run/watch Unit test for C modules, or anything other that works with Makefile
 
-Soon will add parser for CUnit tests, and probably other UT libs
+Has basic parser for CUnit tests. Current TODO is to add also for CppUtest and Unity
 
 ## Install
 
@@ -10,10 +10,10 @@ Need to have guard and also some of the notifiers that guard uses
 
 otherwise, get the gemfile and install it:
 ```
-$ gem install ./guard-cunit-*.gem
+$ gem install guard-cunit
 ```
 
-will put that in rubygems soon
+Already can be found on http://rubygems.org/
 
 # Guardfile
 
@@ -60,11 +60,12 @@ Run rspec in top directory of the project or guard-rspec
 Todo
 -----------
 - fix all bugs :)
-- add parser for CUNIT tests
+- add parser for more Unit tests frameworks
 - add hook for coverage
+- something about automatic mock generation ???
 - ... whatever wind blows ...
 
 Author
 ----------
-[A tea cup on a rocking chair](https://github.com/strandjata)
+[A tea cup on a rocking chair](https://github.com/teacup-on-rockingchair)
 
