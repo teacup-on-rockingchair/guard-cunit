@@ -1,3 +1,6 @@
+### !!! Current version has compatatbility issues with latest guard !!!
+### Working to fix it ASAP.
+
 # Guard CUnit  [![Build Status](https://secure.travis-ci.org/teacup-on-rockingchair/guard-cunit.png?branch=master)](http://travis-ci.org/teacup-on-rockingchair/guard-cunit)
 
 CUnit Guard allows you to run/watch Unit test for C modules, or anything other that works with Makefile
