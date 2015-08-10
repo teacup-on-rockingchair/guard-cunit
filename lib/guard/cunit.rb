@@ -1,11 +1,11 @@
 require 'guard'
-require 'guard/guard'
+require 'guard/compat/plugin'
 
 
 module Guard
 # main child class of Guard to nherit guard's behaviour
-  class Cunit < Guard 
-    autoload :Runner,    'guard/cunit/runner'
+  class Cunit < Plugin
+#    autoload :Runner,    'guard/cunit/runner'
 # new method that also creates the runner class
     def initialize(watchers = [], options = {})
       super

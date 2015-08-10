@@ -43,7 +43,7 @@ describe Guard::Cunit do
   end
 
   it "should inherit Guard class" do
-    subject.class.ancestors.should include(Guard::Guard)
+    expect(Guard::Cunit.ancestors).to include(Guard::Plugin)
   end
 
   context "Run guard" do

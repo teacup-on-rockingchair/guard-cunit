@@ -6,6 +6,7 @@ require 'guard/cunit'
 require 'guard/cunit/runner'
 require 'guard/cunit/cunit_parser'
 require 'rspec'
+require 'pry'
 
 # a class to set/cleanup environment for fake project
 class TempPrjEnv
