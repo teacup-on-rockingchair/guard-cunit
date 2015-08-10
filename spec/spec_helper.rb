@@ -2,11 +2,12 @@ require 'rubygems'
 require 'fileutils'
 require 'pathname'
 require 'guard'
+require 'guard/commander'
 require 'guard/cunit'
 require 'guard/cunit/runner'
 require 'guard/cunit/cunit_parser'
 require 'rspec'
-require 'pry'
+require 'pry_debug'
 
 # a class to set/cleanup environment for fake project
 class TempPrjEnv
@@ -60,11 +61,11 @@ def popen_fake(fakename,exp_result)
 		pipe_args = fakename.split << {:err=>[:child, :out]}
 	end
 	
-	IO.stub(:popen).with(pipe_args)	
+	allow(IO).to receive(:popen).with(pipe_args)	
 	if exp_result == false
-		IO.should_receive(:popen).with(pipe_args) { fake_script(1) }
+		expect(IO).to receive(:popen).with(pipe_args) { fake_script(1) }
 	else	
-		IO.should_receive(:popen).with(pipe_args) { fake_script(0) }
+		expect(IO).to receive(:popen).with(pipe_args) { fake_script(0) }
 	end
 end
 

@@ -60,24 +60,24 @@ Elapsed time =    0.000 seconds")
 
   it "should generate a UI summary and full output from given text input" do
     parser = Guard::Cunit::CunitParser.new(@fake_output)
-    parser.full_output.should == @fake_output
-    parser.cunit_output.should == (@fake_summary)
-    parser.failures_output.should == (@fake_fail_summary)
+    expect(parser.full_output).to eq @fake_output
+    expect(parser.cunit_output).to eq (@fake_summary)
+    expect(parser.failures_output).to eq (@fake_fail_summary)
   end
 
   it "failure summary should be maximum a 3 row output" do
     parser = Guard::Cunit::CunitParser.new(@long_fake_output)
-    parser.failures_output.should == (@shortened_fail_summary)
+    expect(parser.failures_output).to eq (@shortened_fail_summary)
   end
 
   it "should be able to init with no output and later trigger process" do
     parser = Guard::Cunit::CunitParser.new()
     parser.parse_output(@long_fake_output)
-    parser.failures_output.should == (@shortened_fail_summary)
+    expect(parser.failures_output).to eq (@shortened_fail_summary)
   end
   it "should be able to handle test exe with no output and put just failed as failure message" do
     parser = Guard::Cunit::CunitParser.new()
     parser.parse_output(nil)
-    parser.failures_output.should == ("Failed")
+    expect(parser.failures_output).to eq ("Failed")
   end
 end

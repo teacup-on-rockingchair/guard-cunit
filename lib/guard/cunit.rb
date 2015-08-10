@@ -7,7 +7,7 @@ module Guard
   class Cunit < Plugin
 #    autoload :Runner,    'guard/cunit/runner'
 # new method that also creates the runner class
-    def initialize(watchers = [], options = {})
+    def initialize(options = {})
       super
       @options = {
         :all_on_start   => true,

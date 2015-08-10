@@ -25,7 +25,7 @@ describe Guard::Cunit do
       Guard::setup({:no_interactions => true})
       @@first = false
     else
-      Guard::reload({})
+      Guard.evaluate_guardfile()
     end
   end
 
@@ -33,8 +33,8 @@ describe Guard::Cunit do
     Dir.chdir(@work_dir)
     tmp_work_dir=@tmp_env.create_tmp_prj_dir
     Dir.chdir((tmp_work_dir))
-    Guard::UI.stub(:info)
-    IO.stub(:popen)
+    allow(Guard::UI).to receive(:info)
+    allow(IO).to receive(:popen)
   end
 
   after(:each) do
@@ -64,9 +64,8 @@ describe Guard::Cunit do
     it "should run build on changes " do
       
       cguard = Guard::Cunit.new
-      cguard.stub(:run_all).and_return(true)
-      Guard::UI.should_receive(:info).with("Process changes in #{File.basename(Dir.getwd)}")
-      
+      expect(cguard).to receive(:run_all).and_return(true)
+      expect(Guard::UI).to receive(:info).with("Process changes in #{File.basename(Dir.getwd)}")
       cguard.run_on_change("#{File.basename(Dir.getwd)}")
       
     end
@@ -78,13 +77,12 @@ describe Guard::Cunit do
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       fake_test_exe("./jiji",:pass)
-      
       cguard = Guard::Cunit::Runner.new
       setup_guard
       cguard.run
       newenv =get_ld_path
-      newenv.should include("#{oldenv}")
-	  newenv.should include("#{Dir.getwd}")
+      expect(newenv).to include("#{oldenv}")
+      expect(newenv).to include("#{Dir.getwd}")
       get_ld_path=oldenv
     end
 
@@ -101,8 +99,8 @@ describe Guard::Cunit do
       setup_guard
       cguard.run
       newenv =get_ld_path
-      newenv.should include("#{oldenv}")
-	  newenv.should include("#{File.join(Dir.getwd,"lib")}")
+      expect(newenv).to include("#{oldenv}")
+      expect(newenv).to include("#{File.join(Dir.getwd,"lib")}")
       get_ld_path=oldenv     
     end
 
@@ -141,7 +139,7 @@ describe Guard::Cunit do
       popen_successfull_fake("./make_all.sh")
       popen_successfull_fake("./clean_all.sh")
       cguard = Guard::Cunit::Runner.new
-    setup_guard
+      setup_guard
       cguard.run
 
     end
@@ -156,7 +154,7 @@ describe Guard::Cunit do
       popen_failing_fake("make 2>&1")
       cguard = Guard::Cunit::Runner.new
       setup_guard
-      cguard.run.should == false
+      expect(cguard.run).to eq false
     end
 
     it "should block further tasks on build failed" do
@@ -165,11 +163,11 @@ describe Guard::Cunit do
       popen_failing_fake("make 2>&1")
       f = File.new("./jiji", "w+", 0666)
       f.close
-      IO.stub(:popen).with("jiji".split << {:err=>[:child, :out]})
-      IO.should_not_receive(:popen).with("jiji".split << {:err=>[:child, :out]}) 
+      allow(IO).to receive(:popen).with("jiji".split << {:err=>[:child, :out]})
+      expect(IO).not_to receive(:popen).with("jiji".split << {:err=>[:child, :out]}) 
       cguard = Guard::Cunit::Runner.new
       setup_guard
-      cguard.run.should == false
+      expect(cguard.run).to eq false
     end
 
 
@@ -180,7 +178,7 @@ describe Guard::Cunit do
       fake_test_exe("./jiji",:fail)
       cguard = Guard::Cunit::Runner.new
       setup_guard
-      cguard.run.should == false
+      expect(cguard.run).to eq  false
     end
 
   end
@@ -189,9 +187,9 @@ describe Guard::Cunit do
   context "Displaying notifications" do
 
     it "should display failure if build fails" do
-      Guard::Notifier.stub(:notify) 
+      allow(Guard::Notifier).to receive(:notify) 
       guardfile_has_unit_test_exe()
-      Guard::Notifier.should_receive(:notify).with("Failed", :title => "Build Failed", :image => :failed, :priority => 2)
+      allow(Guard::Notifier).to receive(:notify).with("Failed", :title => "Build Failed", :image => :failed, :priority => 2)
       popen_successfull_fake("make clean")
       popen_failing_fake("make 2>&1")
       cguard = Guard::Cunit::Runner.new
@@ -200,10 +198,10 @@ describe Guard::Cunit do
     end
 
     it "should display failure if test fails" do
-      IO.stub(:popen)
-      Guard::Notifier.stub(:notify) 
+      allow(IO).to receive(:popen)
+      allow(Guard::Notifier).to receive(:notify) 
       guardfile_has_unit_test_exe(:test_exe=>"jiji")
-      Guard::Notifier.should_receive(:notify).with( anything(), :title => "Test Failed", :image => :failed, :priority => 2 )
+      allow(Guard::Notifier).to receive(:notify).with( anything(), :title => "Test Failed", :image => :failed, :priority => 2 )
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       fake_test_exe("./jiji",:fail)
@@ -213,9 +211,9 @@ describe Guard::Cunit do
     end
 
     it "should display pending if test is absent" do
-      Guard::Notifier.stub(:notify) 
+      allow(Guard::Notifier).to receive(:notify) 
       guardfile_has_unit_test_exe()
-      Guard::Notifier.should_receive(:notify).with("Pending", :title => "Test Not Defined", :image => :pending, :priority => 2)
+      allow(Guard::Notifier).to receive(:notify).with("Pending", :title => "Test Not Defined", :image => :pending, :priority => 2)
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       cguard = Guard::Cunit::Runner.new
@@ -224,9 +222,9 @@ describe Guard::Cunit do
     end
 
     it "should display success if build and test succeeded" do
-      Guard::Notifier.stub(:notify) 
+      allow(Guard::Notifier).to receive(:notify) 
       guardfile_has_unit_test_exe()
-      Guard::Notifier.should_receive(:notify).with("Success", :title => "Test Passed", :image => :success, :priority => 2)
+      allow(Guard::Notifier).to receive(:notify).with("Success", :title => "Test Passed", :image => :success, :priority => 2)
       popen_successfull_fake("make clean")
       popen_successfull_fake("make 2>&1")
       fake_test_exe(nil,:pass)
