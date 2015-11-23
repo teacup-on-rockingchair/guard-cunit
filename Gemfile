@@ -7,3 +7,5 @@ if RUBY_VERSION.match("1.8")
 end
 gem 'guard', :require=>true
 gem 'rspec-core', :require=> true
+gem 'pry', :require=> true
+gem 'pry_debug', :require=> true
