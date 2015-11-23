@@ -25,7 +25,9 @@ describe Guard::Cunit do
       Guard::setup({:no_interactions => true})
       @@first = false
     else
-      Guard.evaluate_guardfile()
+      options = ::Guard.state.session.evaluator_options
+      evaluator = ::Guard::Guardfile::Evaluator.new(options)
+      evaluator.evaluate
     end
   end
 
@@ -229,7 +231,7 @@ describe Guard::Cunit do
       popen_successfull_fake("make 2>&1")
       fake_test_exe(nil,:pass)
       cguard = Guard::Cunit::Runner.new
-      Guard.add_guard('cunit')
+      Guard.state.session.plugins.add('cunit', Hash.new)
       cguard.run
     end
   end
