@@ -39,8 +39,8 @@ guard 'cunit' do
       watch(%r{((.+)\.c$)|((.+)\.h$)|((M|m)akefile$)} )	
 end
 
-set_builder "make 2>&1"
-set_cleaner "make clean"
+cfg_builder "make 2>&1"
+cfg_cleaner "make clean"
 cunit_runner "#{File.basename(Dir.getwd)}_unit"
 libdir "#{Dir.getwd}"
 
