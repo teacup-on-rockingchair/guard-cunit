@@ -1,7 +1,6 @@
-#version
 module Guard
+  # version of the gem
   module CunitGuard
-# version of the gem
-    VERSION="0.0.2"
+    VERSION = '0.0.3'
   end
 end
