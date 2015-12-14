@@ -39,9 +39,9 @@ module Guard
     #
     def initialize
       super
-      cfg_cleaner('make clean')
+      set_cleaner('make clean')
       cunit_runner("./#{File.basename(Dir.getwd)}_unit")
-      cfg_builder('make 2>&1')
+      set_builder('make 2>&1')
       libdir("#{Dir.getwd}")
       @runner = Cunit::Runner.new
     end
@@ -52,12 +52,12 @@ module Guard
     end
 
     # dsl call to set cunit build command/script, by default make
-    def cfg_builder(name)
+    def set_builder(name)
       Cunit::Runner.cfg_builder(name)
     end
 
     # dsl call to set cunit clean command/script, by default 'make clean'
-    def cfg_cleaner(name)
+    def set_cleaner(name)
       Cunit::Runner.cfg_cleaner(name)
     end
 
