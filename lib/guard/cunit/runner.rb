@@ -44,7 +44,7 @@ module Guard
             yield io
           end
         else
-          IO.popen([exe] << { err: [:child, :out] }) do |io|
+          IO.popen(exe.split << { err: [:child, :out] }) do |io|
             yield io
           end
         end
@@ -80,22 +80,22 @@ module Guard
       def parse_test_output(result)
         @parser.parse_output(@current_output)
         if result == true
-          Notifier.notify('Success', title: 'Test Passed',
+          Guard::Compat::UI.notify('Success', title: 'Test Passed',
                                      image: :success, priority: 2)
         else
-          Notifier.notify(@parser.failures_output, title: 'Test Failed',
+          Guard::Compat::UI.notify(@parser.failures_output, title: 'Test Failed',
                                                    image: :failed, priority: 2)
         end
       end
 
       def run_cunit
         if !File.exist?(@@cunit_runner)
-          Notifier.notify('Pending', title: 'Test Not Defined',
+          Guard::Compat::UI.notify('Pending', title: 'Test Not Defined',
                                      image: :pending, priority: 2)
           return false
         else
           success = run_task(@@cunit_runner)
-          parse_output(success)
+          parse_test_output(success)
           return success
         end
       end
@@ -112,7 +112,7 @@ module Guard
       def run_make
         success = run_task(@@project_builder)
         unless success == true
-          Notifier.notify('Failed', title: 'Build Failed',
+        Guard::Compat::UI.notify('Failed', title: 'Build Failed',
                                     image: :failed, priority: 2)
         end
         fail 'Build failed' unless success == true

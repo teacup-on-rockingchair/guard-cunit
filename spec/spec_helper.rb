@@ -58,7 +58,7 @@ def popen_fake(fakename,exp_result)
 	if( RUBY_PLATFORM.match(/mingw/)||RUBY_PLATFORM.match(/mswin/)||RUBY_VERSION.match("1.8"))
 		pipe_args = fakename		
 	else
-		pipe_args = [fakename] << {:err=>[:child, :out]}
+		pipe_args = fakename.split << {:err=>[:child, :out]}
 	end
 	
 	allow(IO).to receive(:popen).with(pipe_args)	
@@ -98,8 +98,8 @@ def guardfile_has_unit_test_exe(params={ :test_exe=>nil, :builder=>nil, :cleaner
   File.open("Guardfile","w+",0644) do |file|
     file.puts "guard \'cunit\'  do"
     
-    file.puts " cfg_builder \"#{params[:builder]}\"" unless (params[:builder] == nil)
-    file.puts " cfg_cleaner \"#{params[:cleaner]}\"" unless (params[:cleaner] == nil)
+    file.puts " set_builder \"#{params[:builder]}\"" unless (params[:builder] == nil)
+    file.puts " set_cleaner \"#{params[:cleaner]}\"" unless (params[:cleaner] == nil)
     file.puts " cunit_runner \"./#{params[:test_exe]}\"" unless (params[:test_exe] == nil)
     file.puts " libdir \"#{params[:libdir]}\"" unless (params[:libdir] == nil)
     
